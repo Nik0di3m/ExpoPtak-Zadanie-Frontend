@@ -3,22 +3,30 @@ import axios from '../axios'
 import { useState } from 'react'
 
 interface CoolTodoForm {
-    todo: any[]
     setTodo: any
 }
 
-const ToDoForm = ({ todo, setTodo }) => {
+const ToDoForm = ({ setTodo }: CoolTodoForm) => {
     const [input, setInput] = useState<string>('')
 
     const handleAddTodo = async () => {
         if (input.length > 2) {
-            await axios.post('/todo', {
-                task: input,
-                isComplited: false,
-            })
-            await axios.get('/todo').then((res) => {
-                setTodo([...res.data])
-            })
+            await axios
+                .post('/todo', {
+                    task: input,
+                    isComplited: false,
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            await axios
+                .get('/todo')
+                .then((res) => {
+                    setTodo([...res.data])
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             setInput('')
         }
     }

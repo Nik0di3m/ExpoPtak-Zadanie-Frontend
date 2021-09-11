@@ -15,9 +15,10 @@ interface CoolTodo {
     isComplited: boolean
     todo: any[]
     setTodo: any
+    data: any[]
 }
 
-const ToDo = ({ id, text, isComplited, todo, setTodo }: CoolTodo) => {
+const ToDo = ({ id, text, isComplited, todo, setTodo, data }: CoolTodo) => {
     const [complited, setComplited] = useState<boolean>(isComplited)
 
     const TypoStyle = complited
@@ -25,21 +26,29 @@ const ToDo = ({ id, text, isComplited, todo, setTodo }: CoolTodo) => {
         : { textDecoration: 'none', marginLeft: 4 }
 
     const handleDelete = async () => {
-        await axios.delete('todo', {
-            data: {
-                id: id,
-            },
-        })
+        await axios
+            .delete('todo', {
+                data: {
+                    id: id,
+                },
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         setTodo(todo.filter((el: any) => el.id !== id))
     }
 
     const handleComplited = async () => {
         setComplited(!complited)
-        await axios.patch('todo', {
-            id: id,
-            isComplited: !isComplited,
-        })
-        console.log(todo.filter((el: any) => el.isComplited))
+        await axios
+            .patch('todo', {
+                id: id,
+                isComplited: !isComplited,
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        console.log(data.filter((el: any) => el.isComplited))
         setTodo([...todo])
     }
     return (

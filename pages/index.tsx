@@ -25,7 +25,7 @@ const Home = () => {
     }, [todo])
     return (
         <Container maxWidth="sm">
-            <ToDoForm todo={todo} setTodo={setTodo} />
+            <ToDoForm setTodo={setTodo} />
             {data
                 .sort((a, b) => (b.isComplited > a.isComplited && -1) || 1)
                 .map((item: CoolTodo) => (
@@ -36,6 +36,7 @@ const Home = () => {
                         isComplited={item.isComplited}
                         todo={todo}
                         setTodo={setTodo}
+                        data={data}
                     />
                 ))}
         </Container>
