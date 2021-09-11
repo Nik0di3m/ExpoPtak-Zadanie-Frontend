@@ -11,14 +11,16 @@ const ToDoForm = ({ todo, setTodo }) => {
     const [input, setInput] = useState<string>('')
 
     const handleAddTodo = async () => {
-        await axios.post('/todo', {
-            task: input,
-            isComplited: false,
-        })
-        await axios.get('/todo').then((res) => {
-            setTodo([...res.data])
-        })
-        setInput('')
+        if (input.length > 2) {
+            await axios.post('/todo', {
+                task: input,
+                isComplited: false,
+            })
+            await axios.get('/todo').then((res) => {
+                setTodo([...res.data])
+            })
+            setInput('')
+        }
     }
 
     return (
